@@ -23,7 +23,7 @@ class SignupPassEditText @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, after: Int) {
                 if (s.toString().length < 8) {
-                    setError("Inputan tidak boleh kurang dari 8 karakter", null)
+                    setError("Must not be less than 8 characters", null)
                 } else {
                     error = null
                 }
@@ -37,7 +37,7 @@ class SignupPassEditText @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        hint = "Input your new password"
+        //  hint = "Input your new password"
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
 
