@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.loginwithanimation.view.signup
+package com.dicoding.storysubmission.view.signup
 
 import android.os.Build
 import android.os.Bundle
@@ -6,7 +6,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.dicoding.picodiploma.loginwithanimation.databinding.ActivitySignupBinding
+import com.dicoding.storysubmission.databinding.ActivitySignupBinding
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding

@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.loginwithanimation.data.pref
+package com.dicoding.storysubmission.data.pref
 
 data class UserModel(
     val email: String,

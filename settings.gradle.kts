@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "LoginWithAnimation"
+rootProject.name = "StorySubmission"
 include(":app")

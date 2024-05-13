@@ -1,12 +1,12 @@
-package com.dicoding.picodiploma.loginwithanimation.view
+package com.dicoding.storysubmission.view
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dicoding.picodiploma.loginwithanimation.data.UserRepository
-import com.dicoding.picodiploma.loginwithanimation.di.Injection
-import com.dicoding.picodiploma.loginwithanimation.view.login.LoginViewModel
-import com.dicoding.picodiploma.loginwithanimation.view.main.MainViewModel
+import com.dicoding.storysubmission.data.UserRepository
+import com.dicoding.storysubmission.di.Injection
+import com.dicoding.storysubmission.view.login.LoginViewModel
+import com.dicoding.storysubmission.view.main.MainViewModel
 
 class ViewModelFactory(private val repository: UserRepository) : ViewModelProvider.NewInstanceFactory() {
 

@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.loginwithanimation.view.welcome
+package com.dicoding.storysubmission.view.welcome
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -9,9 +9,9 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.dicoding.picodiploma.loginwithanimation.databinding.ActivityWelcomeBinding
-import com.dicoding.picodiploma.loginwithanimation.view.login.LoginActivity
-import com.dicoding.picodiploma.loginwithanimation.view.signup.SignupActivity
+import com.dicoding.storysubmission.databinding.ActivityWelcomeBinding
+import com.dicoding.storysubmission.view.login.LoginActivity
+import com.dicoding.storysubmission.view.signup.SignupActivity
 
 class WelcomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWelcomeBinding

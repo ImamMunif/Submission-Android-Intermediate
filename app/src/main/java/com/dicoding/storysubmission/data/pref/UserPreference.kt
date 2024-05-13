@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.loginwithanimation.data.pref
+package com.dicoding.storysubmission.data.pref
 
 import android.content.Context
 import androidx.datastore.core.DataStore

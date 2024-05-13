@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.dicoding.picodiploma.loginwithanimation"
+    namespace = "com.dicoding.storysubmission"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.dicoding.picodiploma.loginwithanimation"
+        applicationId = "com.dicoding.storysubmission"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

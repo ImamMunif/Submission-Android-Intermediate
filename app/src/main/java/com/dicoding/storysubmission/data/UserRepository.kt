@@ -1,7 +1,7 @@
-package com.dicoding.picodiploma.loginwithanimation.data
+package com.dicoding.storysubmission.data
 
-import com.dicoding.picodiploma.loginwithanimation.data.pref.UserModel
-import com.dicoding.picodiploma.loginwithanimation.data.pref.UserPreference
+import com.dicoding.storysubmission.data.pref.UserModel
+import com.dicoding.storysubmission.data.pref.UserPreference
 import kotlinx.coroutines.flow.Flow
 
 class UserRepository private constructor(

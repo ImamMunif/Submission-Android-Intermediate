@@ -1,11 +1,11 @@
-package com.dicoding.picodiploma.loginwithanimation.view.main
+package com.dicoding.storysubmission.view.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.dicoding.picodiploma.loginwithanimation.data.UserRepository
-import com.dicoding.picodiploma.loginwithanimation.data.pref.UserModel
+import com.dicoding.storysubmission.data.UserRepository
+import com.dicoding.storysubmission.data.pref.UserModel
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: UserRepository) : ViewModel() {

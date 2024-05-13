@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.loginwithanimation.view.login
+package com.dicoding.storysubmission.view.login
 
 import android.content.Intent
 import android.os.Build
@@ -8,10 +8,10 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.dicoding.picodiploma.loginwithanimation.data.pref.UserModel
-import com.dicoding.picodiploma.loginwithanimation.databinding.ActivityLoginBinding
-import com.dicoding.picodiploma.loginwithanimation.view.ViewModelFactory
-import com.dicoding.picodiploma.loginwithanimation.view.main.MainActivity
+import com.dicoding.storysubmission.data.pref.UserModel
+import com.dicoding.storysubmission.databinding.ActivityLoginBinding
+import com.dicoding.storysubmission.view.ViewModelFactory
+import com.dicoding.storysubmission.view.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
