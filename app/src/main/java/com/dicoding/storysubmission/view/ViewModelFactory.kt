@@ -7,8 +7,10 @@ import com.dicoding.storysubmission.data.UserRepository
 import com.dicoding.storysubmission.di.Injection
 import com.dicoding.storysubmission.view.login.LoginViewModel
 import com.dicoding.storysubmission.view.main.MainViewModel
+import com.dicoding.storysubmission.view.signup.SignupViewModel
 
-class ViewModelFactory(private val repository: UserRepository) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory(private val repository: UserRepository) :
+    ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -18,6 +20,9 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(SignupViewModel::class.java) -> {
+                SignupViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

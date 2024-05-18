@@ -4,14 +4,24 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.dicoding.storysubmission.data.Result
 import com.dicoding.storysubmission.databinding.ActivitySignupBinding
+import com.dicoding.storysubmission.view.ViewModelFactory
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
+
+    private val viewModel by viewModels<SignupViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,19 +72,53 @@ class SignupActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
+    // !!-------------------- Signup action --------------------!!
     private fun setupAction() {
         binding.signupButton.setOnClickListener {
+            val name = binding.nameEditText.text.toString()
             val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
 
-            AlertDialog.Builder(this).apply {
-                setTitle("Success!")
-                setMessage("Account created successfully")
-                setPositiveButton("Continue log in") { _, _ ->
-                    finish()
+            viewModel.signup(name, email, password).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Loading -> {
+                            showLoading(true)
+                            Log.d("Debug: signup", "signup: uploading...")
+                        }
+
+                        is Result.Success -> {
+                            showToast(result.data.message)
+                            showLoading(false)
+                            Log.d("Debug: signup", "signup: finish...")
+
+                            AlertDialog.Builder(this).apply {
+                                setTitle("Success!")
+                                setMessage("Account created successfully")
+                                setPositiveButton("Continue log in") { _, _ ->
+                                    finish()
+                                }
+                                create()
+                                show()
+                            }
+                        }
+
+                        is Result.Error -> {
+                            showToast(result.error)
+                            showLoading(false)
+                            Log.d("Debug: signup", "signup: error...!!")
+                        }
+                    }
                 }
-                create()
-                show()
             }
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
