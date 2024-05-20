@@ -16,5 +16,7 @@
     <string name="inputYourNewName">What\'s your name?</string>
     <string name="inputYourNewEmail">What\'s your email?</string>
     <string name="inputYourNewPass">Create your new password</string>
+    <string name="story_title">Story title</string>
+    <string name="story_description">Story description</string>
 
 </resources>
