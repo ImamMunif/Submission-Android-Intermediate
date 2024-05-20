@@ -17,6 +17,7 @@ import com.dicoding.storysubmission.databinding.ActivitySignupBinding
 import com.dicoding.storysubmission.view.ViewModelFactory
 
 class SignupActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivitySignupBinding
 
     private val viewModel by viewModels<SignupViewModel> {
