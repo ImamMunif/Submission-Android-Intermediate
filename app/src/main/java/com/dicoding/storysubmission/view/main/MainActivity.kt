@@ -10,6 +10,7 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.storysubmission.R
 import com.dicoding.storysubmission.databinding.ActivityMainBinding
 import com.dicoding.storysubmission.view.ViewModelFactory
 import com.dicoding.storysubmission.view.welcome.WelcomeActivity
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupView()
-        setupAction()
+        setMainMenu()
     }
 
     private fun setupView() {
@@ -79,11 +80,23 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun setupAction() {
-        binding.logoutButton.setOnClickListener {
-            viewModel.logout()
+    private fun setMainMenu(){
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_logout -> {
+                    viewModel.logout()
+                    true
+                }
+                else -> false
+            }
         }
     }
+
+    //    private fun setupAction() {
+    //        binding.logoutButton.setOnClickListener {
+    //            viewModel.logout()
+    //        }
+    //    }
 
     private fun showLoading(isLoading: Boolean) {
         binding.rvStoriesList.visibility = if (isLoading) View.GONE else View.VISIBLE
