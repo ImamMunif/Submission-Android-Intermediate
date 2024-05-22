@@ -1,12 +1,16 @@
 package com.dicoding.storysubmission.data
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.dicoding.storysubmission.data.api.ApiService
 import com.dicoding.storysubmission.data.response.SignupResponse
 import com.dicoding.storysubmission.data.pref.UserModel
 import com.dicoding.storysubmission.data.pref.UserPreference
+import com.dicoding.storysubmission.data.response.ListStoryItem
 import com.dicoding.storysubmission.data.response.LoginResponse
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
@@ -60,6 +64,22 @@ class UserRepository private constructor(
             emit(Result.Error(errorResponse.message))
         }
     }
+
+    // !!-------------------- story logic --------------------!!
+    fun getStories(): LiveData<Result<List<ListStoryItem>>> =
+        liveData(Dispatchers.IO) {
+            emit(Result.Loading)
+            try {
+                Log.d("story list", "Mulai getStories")
+                val successResponse = apiService.getStories()
+                val storyList = successResponse.listStory
+                Log.d("story list", "${successResponse.message}")
+                emit(Result.Success(storyList))
+            } catch (e: Exception) {
+                Log.d("story list", "error getStories")
+                emit(Result.Error(e.message.toString()))
+            }
+        }
 
     companion object {
         @Volatile
