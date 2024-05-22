@@ -15,6 +15,7 @@ import com.dicoding.storysubmission.databinding.ActivityMainBinding
 import com.dicoding.storysubmission.view.ViewModelFactory
 import com.dicoding.storysubmission.view.welcome.WelcomeActivity
 import com.dicoding.storysubmission.data.Result
+import com.dicoding.storysubmission.view.detail.DetailActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +31,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupView()
+        setMainMenu()
 
         // List of stores RecyclerView layout manager
         val layoutManager = LinearLayoutManager(this)
@@ -51,20 +55,22 @@ class MainActivity : AppCompatActivity() {
                 is Result.Loading -> showLoading(true)
                 is Result.Error -> {
                     showLoading(false)
-                    Log.d("Debug: observe", "Failed to retrieve storyList")
+                    Log.d("log: MainActivity", "observe: failed to retrieve storyList...!!!")
                 }
 
                 is Result.Success -> {
                     showLoading(false)
-                    adapter = StoryListAdapter(it.data)
+                    adapter = StoryListAdapter(it.data) { story ->
+                        val intent = Intent(this, DetailActivity::class.java).apply {
+                            putExtra("storyId", story.id)
+                        }
+                        startActivity(intent)
+                    }
                     binding.rvStoriesList.adapter = adapter
-                    Log.d("Debug: observe", "storyList parsed to the adapter")
+                    Log.d("log: MainActivity", "observe: storyList parsed to the adapter")
                 }
             }
         }
-
-        setupView()
-        setMainMenu()
     }
 
     private fun setupView() {

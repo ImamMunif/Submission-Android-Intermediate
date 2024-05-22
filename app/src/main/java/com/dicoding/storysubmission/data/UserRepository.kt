@@ -9,6 +9,8 @@ import com.dicoding.storysubmission.data.pref.UserModel
 import com.dicoding.storysubmission.data.pref.UserPreference
 import com.dicoding.storysubmission.data.response.ListStoryItem
 import com.dicoding.storysubmission.data.response.LoginResponse
+import com.dicoding.storysubmission.data.response.Story
+import com.dicoding.storysubmission.data.response.StoryDetailResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -70,13 +72,28 @@ class UserRepository private constructor(
         liveData(Dispatchers.IO) {
             emit(Result.Loading)
             try {
-                Log.d("story list", "Mulai getStories")
+                Log.d("log: repository", "getStories: beginning getStories...")
                 val successResponse = apiService.getStories()
                 val storyList = successResponse.listStory
-                Log.d("story list", "${successResponse.message}")
+                Log.d("log: repository", "getStories:  successResponse: ${successResponse.message}")
                 emit(Result.Success(storyList))
             } catch (e: Exception) {
-                Log.d("story list", "error getStories")
+                Log.d("log: repository", "getStories: error getStories...!!")
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+
+    // !!-------------------- story by ID logic --------------------!!
+    fun getStoryById(id: String): LiveData<Result<Story>> =
+        liveData(Dispatchers.IO) {
+            emit(Result.Loading)
+            try {
+                Log.d("log: repository", "getStoryByID: beginning getStoryByID...")
+                val successResponse: StoryDetailResponse = apiService.getStoryById(id)
+                Log.d("log: repository", "getStoryByID: successResponse: $successResponse")
+                emit(Result.Success(successResponse.story))
+            } catch (e: Exception) {
+                Log.d("log: repository", "getStoryByID: error getStoryByID...!!")
                 emit(Result.Error(e.message.toString()))
             }
         }

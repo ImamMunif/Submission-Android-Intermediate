@@ -7,8 +7,10 @@ import com.bumptech.glide.Glide
 import com.dicoding.storysubmission.data.response.ListStoryItem
 import com.dicoding.storysubmission.databinding.ItemLayoutBinding
 
-class StoryListAdapter(private val storyList: List<ListStoryItem>) :
-    RecyclerView.Adapter<StoryListAdapter.UserViewHolder>() {
+class StoryListAdapter(
+    private val storyList: List<ListStoryItem>,
+    private val onItemClick: (ListStoryItem) -> Unit
+    ) : RecyclerView.Adapter<StoryListAdapter.UserViewHolder>() {
 
     inner class UserViewHolder(private val binding: ItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -22,6 +24,10 @@ class StoryListAdapter(private val storyList: List<ListStoryItem>) :
                 .load(story.photoUrl)
                 .fitCenter()
                 .into(binding.imgItemPhoto)
+
+            binding.itemLayout.setOnClickListener {
+                onItemClick(story)
+            }
         }
     }
 
