@@ -15,6 +15,7 @@ class StoryListAdapter(private val storyList: List<ListStoryItem>) :
 
         fun bind(story: ListStoryItem) {
             binding.tvItemName.text = story.name
+            binding.tvItemDescription.text = story.description
 
             Glide
                 .with(itemView.context)
