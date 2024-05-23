@@ -25,10 +25,12 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.title = "Detail"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val storyId = if (Build.VERSION.SDK_INT >= 33) {
             intent.getStringExtra("storyId")
         } else {
-            @Suppress("DEPRECATION")
             intent.getStringExtra("storyId")
         }
 
@@ -47,6 +49,10 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
+    }
     private fun setDetailData(storyItem: Story) {
         Log.d("log: DetailActivity", "setDetailData: storyItem: $storyItem")
         Glide
