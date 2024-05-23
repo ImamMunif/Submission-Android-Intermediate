@@ -18,5 +18,6 @@
     <string name="inputYourNewPass">Create your new password</string>
     <string name="story_title">Story title</string>
     <string name="story_description">Story description</string>
+    <string name="upload_desc">Upload new story</string>
 
 </resources>
