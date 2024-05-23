@@ -19,5 +19,9 @@
     <string name="story_title">Story title</string>
     <string name="story_description">Story description</string>
     <string name="upload_desc">Upload new story</string>
+    <string name="upload">Upload</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="inputDescription">Give some descriptions</string>
 
 </resources>
