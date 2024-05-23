@@ -16,6 +16,7 @@ import com.dicoding.storysubmission.view.ViewModelFactory
 import com.dicoding.storysubmission.view.welcome.WelcomeActivity
 import com.dicoding.storysubmission.data.Result
 import com.dicoding.storysubmission.view.detail.DetailActivity
+import com.dicoding.storysubmission.view.upload.UploadActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -70,6 +71,11 @@ class MainActivity : AppCompatActivity() {
                     Log.d("log: MainActivity", "observe: storyList parsed to the adapter")
                 }
             }
+        }
+
+        binding.fabUpload.setOnClickListener {
+            val intent = Intent(this, UploadActivity::class.java)
+            startActivity(intent)
         }
     }
 
