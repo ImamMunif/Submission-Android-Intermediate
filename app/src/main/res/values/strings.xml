@@ -24,5 +24,6 @@
     <string name="camera">Camera</string>
     <string name="inputDescription">Give some descriptions</string>
     <string name="empty_image_warning">Please insert an image first</string>
+    <string name="empty_description_warning">Description should\'nt be empty</string>
 
 </resources>

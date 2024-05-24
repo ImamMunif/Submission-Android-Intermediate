@@ -104,10 +104,18 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun uploadImage() {
+        val description = binding.descriptionEditText.text.toString().trim()
+
+        if (description.isEmpty()) {
+            binding.descriptionEditTextLayout.error = getString(R.string.empty_description_warning)
+            return
+        } else {
+            binding.descriptionEditTextLayout.error = null
+        }
+
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
             Log.d("Debug: uploadImage", "imageFile: $imageFile")
-            val description = "Templateted description"
 
             viewModel.uploadImage(imageFile, description).observe(this) { result ->
                 if (result != null) {
