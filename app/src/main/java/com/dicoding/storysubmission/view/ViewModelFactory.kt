@@ -9,6 +9,7 @@ import com.dicoding.storysubmission.view.detail.DetailViewModel
 import com.dicoding.storysubmission.view.login.LoginViewModel
 import com.dicoding.storysubmission.view.main.MainViewModel
 import com.dicoding.storysubmission.view.signup.SignupViewModel
+import com.dicoding.storysubmission.view.upload.UploadViewModel
 
 class ViewModelFactory(private val repository: UserRepository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -27,6 +28,9 @@ class ViewModelFactory(private val repository: UserRepository) :
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(UploadViewModel::class.java) -> {
+                UploadViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

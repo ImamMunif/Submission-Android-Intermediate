@@ -23,5 +23,6 @@
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
     <string name="inputDescription">Give some descriptions</string>
+    <string name="empty_image_warning">Please insert an image first</string>
 
 </resources>

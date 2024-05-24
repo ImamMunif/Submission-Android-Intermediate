@@ -6,13 +6,22 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import com.dicoding.storysubmission.R
+import com.dicoding.storysubmission.data.Result
 import com.dicoding.storysubmission.databinding.ActivityUploadBinding
+import com.dicoding.storysubmission.view.ViewModelFactory
 
 class UploadActivity : AppCompatActivity() {
+
+    private val viewModel by viewModels<UploadViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     private lateinit var binding: ActivityUploadBinding
 
@@ -48,6 +57,7 @@ class UploadActivity : AppCompatActivity() {
 
             binding.layoutButton.galleryButton.setOnClickListener { startGallery() }
             binding.layoutButton.cameraButton.setOnClickListener { startCamera() }
+            binding.uploadButton.setOnClickListener { uploadImage() }
             Log.d("Debug: onCreate", "onCreate started")
             Log.d("Debug: onCreate", "currentImageURI: $currentImageUri")
         }
@@ -55,7 +65,7 @@ class UploadActivity : AppCompatActivity() {
 
     private fun startGallery() {
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-          Log.d("Log: UploadActivity", "startGallery: function startGallery triggered")
+        Log.d("Log: UploadActivity", "startGallery: function startGallery triggered")
     }
 
     private val launcherGallery = registerForActivityResult(
@@ -89,8 +99,47 @@ class UploadActivity : AppCompatActivity() {
     private fun showImage() {
         currentImageUri?.let {
             binding.previewImageView.setImageURI(it)
-              Log.d("Log: UploadActivity", "showImage: Uri selected: $it")
+            Log.d("Log: UploadActivity", "showImage: Uri selected: $it")
         }
+    }
+
+    private fun uploadImage() {
+        currentImageUri?.let { uri ->
+            val imageFile = uriToFile(uri, this).reduceFileImage()
+            Log.d("Debug: uploadImage", "imageFile: $imageFile")
+            val description = "Templateted description"
+
+            viewModel.uploadImage(imageFile, description).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Loading -> {
+                            showLoading(true)
+                            Log.d("Debug: uploadImage", "uploadImage: uploading...")
+                        }
+
+                        is Result.Success -> {
+                            showToast(result.data.message)
+                            showLoading(false)
+                            Log.d("Debug: uploadImage", "uploadImage: finish...")
+                        }
+
+                        is Result.Error -> {
+                            showToast(result.error)
+                            showLoading(false)
+                            Log.d("Debug: uploadImage", "uploadImage: error...!!")
+                        }
+                    }
+                }
+            }
+        } ?: showToast(getString(R.string.empty_image_warning))
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSupportNavigateUp(): Boolean {
