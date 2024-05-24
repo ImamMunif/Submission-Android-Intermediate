@@ -2,16 +2,16 @@
     <string name="app_name">StorySubmission</string>
     <string name="signup">Sign up</string>
     <string name="login">Log in</string>
-    <string name="message_welcome_page">Mau belajar Android, iOS, Machine Learning, Cloud, Front-End, Back-End, dan bidang IT lainnya? Di Dicoding aja!</string>
-    <string name="title_welcome_page">Selamat datang di Dicoding!</string>
-    <string name="title_signup_page">Lengkapi data dirimu di bawah ini ya</string>
+    <string name="message_welcome_page">Record your story and journey with your friends!</string>
+    <string name="title_welcome_page">Welcome to StorySubmission!</string>
+    <string name="title_signup_page">Please fill in your identity</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="message_login_page">Masukkan dulu datamu ya</string>
-    <string name="title_login_page">Sudah siap untuk upgrade skill?</string>
-    <string name="name">Nama</string>
-    <string name="message_main_page">Selamat Belajar di Dicoding.</string>
-    <string name="greeting">Halo %1$s,</string>
+    <string name="message_login_page">Please fill in your identity first</string>
+    <string name="title_login_page">Ready to begin your journey?</string>
+    <string name="name">Name</string>
+    <string name="message_main_page">Let\'s begin your journey</string>
+    <string name="greeting">Hello %1$s,</string>
     <string name="logout">Log out</string>
     <string name="inputYourNewName">What\'s your name?</string>
     <string name="inputYourNewEmail">What\'s your email?</string>
@@ -25,5 +25,6 @@
     <string name="inputDescription">Give some descriptions</string>
     <string name="empty_image_warning">Please insert an image first</string>
     <string name="empty_description_warning">Description should\'nt be empty</string>
-
+    <string name="inputYourEmail">Input your email</string>
+    <string name="inputYourPass">Input your password</string>
 </resources>
