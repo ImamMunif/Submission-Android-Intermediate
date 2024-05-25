@@ -117,24 +117,27 @@ class UploadActivity : AppCompatActivity() {
             val imageFile = uriToFile(uri, this).reduceFileImage()
             Log.d("Debug: uploadImage", "imageFile: $imageFile")
 
-            viewModel.uploadImage(imageFile, description).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Result.Loading -> {
-                            showLoading(true)
-                            Log.d("Debug: uploadImage", "uploadImage: uploading...")
-                        }
+            viewModel.getSession().observe(this) { user ->
+                val token = user.token
+                viewModel.uploadImage(token, imageFile, description).observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Result.Loading -> {
+                                showLoading(true)
+                                Log.d("Debug: uploadImage", "uploadImage: uploading...")
+                            }
 
-                        is Result.Success -> {
-                            showToast(result.data.message)
-                            showLoading(false)
-                            Log.d("Debug: uploadImage", "uploadImage: finish...")
-                        }
+                            is Result.Success -> {
+                                showToast(result.data.message)
+                                showLoading(false)
+                                Log.d("Debug: uploadImage", "uploadImage: finish...")
+                            }
 
-                        is Result.Error -> {
-                            showToast(result.error)
-                            showLoading(false)
-                            Log.d("Debug: uploadImage", "uploadImage: error...!!")
+                            is Result.Error -> {
+                                showToast(result.error)
+                                showLoading(false)
+                                Log.d("Debug: uploadImage", "uploadImage: error...!!")
+                            }
                         }
                     }
                 }

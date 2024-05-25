@@ -95,7 +95,8 @@ class UserRepository private constructor(
             emit(Result.Loading)
             try {
                 Log.d("log: repository", "getStoryByID: beginning getStoryByID...")
-                val successResponse: StoryDetailResponse = apiService.getStoryById("Bearer $token", id)
+                val successResponse: StoryDetailResponse =
+                    apiService.getStoryById("Bearer $token", id)
                 Log.d("log: repository", "getStoryByID: successResponse: $successResponse")
                 emit(Result.Success(successResponse.story))
             } catch (e: Exception) {
@@ -105,7 +106,7 @@ class UserRepository private constructor(
         }
 
     // !!-------------------- upload logic --------------------!!
-    fun uploadImage(imageFile: File, description: String) = liveData {
+    fun uploadImage(token: String, imageFile: File, description: String) = liveData {
         emit(Result.Loading)
         val requestBody = description.toRequestBody("text/plain".toMediaType())
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
@@ -115,8 +116,8 @@ class UserRepository private constructor(
             requestImageFile
         )
         try {
-            val successResponse = apiService.uploadImage(multipartBody, requestBody)
-            emit(Result.Success(successResponse))
+            val successResponse = apiService.uploadImage("Bearer $token", multipartBody, requestBody)
+            emit (Result.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, StoryUploadResponse::class.java)
