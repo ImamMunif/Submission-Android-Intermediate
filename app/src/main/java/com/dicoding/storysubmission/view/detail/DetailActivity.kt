@@ -3,7 +3,6 @@ package com.dicoding.storysubmission.view.detail
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide

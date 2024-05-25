@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
+import com.dicoding.storysubmission.R
 
 class SignupPassEditText @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -22,7 +23,7 @@ class SignupPassEditText @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, after: Int) {
                 if (s.toString().length < 8) {
-                    setError("Must not be less than 8 characters", null)
+                    setError(context.getString(R.string.password_error), null)
                 } else {
                     error = null
                 }

@@ -3,7 +3,6 @@ package com.dicoding.storysubmission.view.login
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager

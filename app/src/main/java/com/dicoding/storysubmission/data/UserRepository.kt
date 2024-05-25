@@ -1,6 +1,5 @@
 package com.dicoding.storysubmission.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.dicoding.storysubmission.data.api.ApiService
