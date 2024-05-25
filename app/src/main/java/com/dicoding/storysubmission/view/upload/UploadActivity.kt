@@ -1,6 +1,7 @@
 package com.dicoding.storysubmission.view.upload
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import com.dicoding.storysubmission.R
 import com.dicoding.storysubmission.data.Result
 import com.dicoding.storysubmission.databinding.ActivityUploadBinding
 import com.dicoding.storysubmission.view.ViewModelFactory
+import com.dicoding.storysubmission.view.main.MainActivity
 
 class UploadActivity : AppCompatActivity() {
 
@@ -54,13 +56,13 @@ class UploadActivity : AppCompatActivity() {
 
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
-
-            binding.layoutButton.galleryButton.setOnClickListener { startGallery() }
-            binding.layoutButton.cameraButton.setOnClickListener { startCamera() }
-            binding.uploadButton.setOnClickListener { uploadImage() }
-            Log.d("Debug: onCreate", "onCreate started")
-            Log.d("Debug: onCreate", "currentImageURI: $currentImageUri")
         }
+
+        binding.layoutButton.galleryButton.setOnClickListener { startGallery() }
+        binding.layoutButton.cameraButton.setOnClickListener { startCamera() }
+        binding.uploadButton.setOnClickListener { uploadImage() }
+        Log.d("Debug: onCreate", "onCreate started")
+        Log.d("Debug: onCreate", "currentImageURI: $currentImageUri")
     }
 
     private fun startGallery() {
@@ -130,6 +132,7 @@ class UploadActivity : AppCompatActivity() {
                             is Result.Success -> {
                                 showToast(result.data.message)
                                 showLoading(false)
+                                startActivity(Intent(this, MainActivity::class.java))
                                 Log.d("Debug: uploadImage", "uploadImage: finish...")
                             }
 
