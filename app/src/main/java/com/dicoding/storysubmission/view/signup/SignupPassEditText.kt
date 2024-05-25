@@ -18,7 +18,6 @@ class SignupPassEditText @JvmOverloads constructor(
 
         addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            // Do nothing.
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, after: Int) {
@@ -30,14 +29,12 @@ class SignupPassEditText @JvmOverloads constructor(
             }
 
             override fun afterTextChanged(s: Editable?) {
-            // Do nothing
             }
         })
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        //  hint = "Input your new password"
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
 

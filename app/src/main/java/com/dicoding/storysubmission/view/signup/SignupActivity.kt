@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.dicoding.storysubmission.R
 import com.dicoding.storysubmission.data.Result
 import com.dicoding.storysubmission.databinding.ActivitySignupBinding
 import com.dicoding.storysubmission.view.ViewModelFactory
@@ -32,30 +33,24 @@ class SignupActivity : AppCompatActivity() {
         setupView()
         setupAction()
 
-        // binding to access the EditText
         binding.emailEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // No action needed here
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (!isValidEmail(s.toString())) {
-                    binding.emailEditText.error = "Must be in valid email format"
+                    binding.emailEditText.error = getString(R.string.email_error)
                 } else {
                     binding.emailEditText.error = null
                 }
             }
 
             override fun afterTextChanged(s: Editable) {
-                // No action needed here
             }
         })
     }
 
     private fun isValidEmail(email: String): Boolean {
-        //  val emailPattern = "^A-Za-z([@]{1})(.{1,})(\\.)(.{1,})"
-        //  val emailPattern = "^[A-Za-z]+@[A-Za-z]+\\.[A-Za-z]{2,}"
-        //  val emailPattern = "^[A-Za-z0-9]+@[A-Za-z]+\\.[A-Za-z]{2,}"
         val emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(?:\\.[\\p{L}]{2,})?\$"
         return email.matches(emailPattern.toRegex())
     }
@@ -73,7 +68,6 @@ class SignupActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    // !!-------------------- Signup action --------------------!!
     private fun setupAction() {
         binding.signupButton.setOnClickListener {
             val name = binding.nameEditText.text.toString()
@@ -85,18 +79,16 @@ class SignupActivity : AppCompatActivity() {
                     when (result) {
                         is Result.Loading -> {
                             showLoading(true)
-                            Log.d("Debug: signup", "signup: uploading...")
                         }
 
                         is Result.Success -> {
                             showToast(result.data.message)
                             showLoading(false)
-                            Log.d("Debug: signup", "signup: finish...")
 
                             AlertDialog.Builder(this).apply {
-                                setTitle("Success!")
-                                setMessage("Account created successfully")
-                                setPositiveButton("Continue log in") { _, _ ->
+                                setTitle(getString(R.string.success))
+                                setMessage(getString(R.string.success_create_acc))
+                                setPositiveButton(getString(R.string.continue_login)) { _, _ ->
                                     finish()
                                 }
                                 create()
@@ -107,7 +99,6 @@ class SignupActivity : AppCompatActivity() {
                         is Result.Error -> {
                             showToast(result.error)
                             showLoading(false)
-                            Log.d("Debug: signup", "signup: error...!!")
                         }
                     }
                 }

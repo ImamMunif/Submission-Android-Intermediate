@@ -51,7 +51,7 @@ class UploadActivity : AppCompatActivity() {
         binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Upload"
+        supportActionBar?.title = getString(R.string.title_upload)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (!allPermissionsGranted()) {
@@ -61,13 +61,10 @@ class UploadActivity : AppCompatActivity() {
         binding.layoutButton.galleryButton.setOnClickListener { startGallery() }
         binding.layoutButton.cameraButton.setOnClickListener { startCamera() }
         binding.uploadButton.setOnClickListener { uploadImage() }
-        Log.d("Debug: onCreate", "onCreate started")
-        Log.d("Debug: onCreate", "currentImageURI: $currentImageUri")
     }
 
     private fun startGallery() {
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        Log.d("Log: UploadActivity", "startGallery: function startGallery triggered")
     }
 
     private val launcherGallery = registerForActivityResult(
@@ -75,10 +72,7 @@ class UploadActivity : AppCompatActivity() {
     ) { uri: Uri? ->
         if (uri != null) {
             currentImageUri = uri
-            Log.d("Log: UploadActivity", "launcherGallery: currentImageUri: $uri")
             showImage()
-        } else {
-            Log.d("Log: UploadActivity", "launcherGallery: No media selected")
         }
     }
 
@@ -91,17 +85,13 @@ class UploadActivity : AppCompatActivity() {
         ActivityResultContracts.TakePicture()
     ) { isSuccess ->
         if (isSuccess) {
-            Log.d("Log: UploadActivity", "launcherCamera: currentImageURI: $currentImageUri")
             showImage()
-        } else {
-            Log.d("Log: UploadActivity", "launcherCamera: No media selected")
         }
     }
 
     private fun showImage() {
         currentImageUri?.let {
             binding.previewImageView.setImageURI(it)
-            Log.d("Log: UploadActivity", "showImage: Uri selected: $it")
         }
     }
 
@@ -117,7 +107,6 @@ class UploadActivity : AppCompatActivity() {
 
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
-            Log.d("Debug: uploadImage", "imageFile: $imageFile")
 
             viewModel.getSession().observe(this) { user ->
                 val token = user.token
@@ -126,20 +115,17 @@ class UploadActivity : AppCompatActivity() {
                         when (result) {
                             is Result.Loading -> {
                                 showLoading(true)
-                                Log.d("Debug: uploadImage", "uploadImage: uploading...")
                             }
 
                             is Result.Success -> {
                                 showToast(result.data.message)
                                 showLoading(false)
                                 startActivity(Intent(this, MainActivity::class.java))
-                                Log.d("Debug: uploadImage", "uploadImage: finish...")
                             }
 
                             is Result.Error -> {
                                 showToast(result.error)
                                 showLoading(false)
-                                Log.d("Debug: uploadImage", "uploadImage: error...!!")
                             }
                         }
                     }

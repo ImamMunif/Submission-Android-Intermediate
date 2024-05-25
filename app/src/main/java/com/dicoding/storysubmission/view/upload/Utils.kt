@@ -37,8 +37,6 @@ fun getImageUri(context: Context): Uri {
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             contentValues
         )
-        // content://media/external/images/media/1000000062
-        // storage/emulated/0/Pictures/MyCamera/20230825_155303.jpg
     }
     return uri ?: getImageUriForPreQ(context)
 }
@@ -52,7 +50,6 @@ private fun getImageUriForPreQ(context: Context): Uri {
         "${BuildConfig.APPLICATION_ID}.fileprovider",
         imageFile
     )
-    //content://com.dicoding.picodiploma.mycamera.fileprovider/my_images/MyCamera/20230825_133659.jpg
 }
 
 fun createCustomTempFile(context: Context): File {
@@ -62,13 +59,9 @@ fun createCustomTempFile(context: Context): File {
 
 fun uriToFile(imageUri: Uri, context: Context): File {
     val myFile = createCustomTempFile(context)
-    Log.d("Debug: uriToFile", "myFile: $myFile")
     val inputStream = context.contentResolver.openInputStream(imageUri) as InputStream
-    Log.d("Debug: uriToFile", "inputStream: $inputStream")
     val outputStream = FileOutputStream(myFile)
-    Log.d("Debug: uriToFile", "outputStream: $outputStream")
     val buffer = ByteArray(1024)
-    Log.d("Debug: uriToFile", "buffer: $buffer")
     var length: Int
     while (inputStream.read(buffer).also { length = it } > 0) outputStream.write(buffer, 0, length)
     outputStream.close()
@@ -81,13 +74,11 @@ fun File.reduceFileImage(): File {
     val bitmap = BitmapFactory.decodeFile(file.path).getRotatedBitmap(file)
     var compressQuality = 100
     var streamLength: Int
-    Log.d("Debug: reduceFileImage", "MAXIMAL_SIZE: $MAXIMAL_SIZE")
     do {
         val bmpStream = ByteArrayOutputStream()
         bitmap?.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
         val bmpPicByteArray = bmpStream.toByteArray()
         streamLength = bmpPicByteArray.size
-        Log.d("Debug: reduceFileImage", "streamLength: $streamLength")
         compressQuality -= 5
     } while (streamLength > MAXIMAL_SIZE)
     bitmap?.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))

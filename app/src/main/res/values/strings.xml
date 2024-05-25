@@ -27,4 +27,10 @@
     <string name="empty_description_warning">Description should\'nt be empty</string>
     <string name="inputYourEmail">Input your email</string>
     <string name="inputYourPass">Input your password</string>
+    <string name="title_detail">Detail</string>
+    <string name="email_error">Must be in a valid email format</string>
+    <string name="success_create_acc">Account created successfully</string>
+    <string name="success">Success</string>
+    <string name="continue_login">Continue log in</string>
+    <string name="title_upload">Upload</string>
 </resources>

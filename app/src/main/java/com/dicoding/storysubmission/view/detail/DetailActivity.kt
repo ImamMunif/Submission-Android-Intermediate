@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
+import com.dicoding.storysubmission.R
 import com.dicoding.storysubmission.data.Result
 import com.dicoding.storysubmission.data.response.Story
 import com.dicoding.storysubmission.databinding.ActivityDetailBinding
@@ -25,7 +26,7 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Detail"
+        supportActionBar?.title = getString(R.string.title_detail)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val storyId = if (Build.VERSION.SDK_INT >= 33) {
@@ -58,7 +59,6 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setDetailData(storyItem: Story) {
-        Log.d("log: DetailActivity", "setDetailData: storyItem: $storyItem")
         Glide
             .with(this)
             .load(storyItem.photoUrl)

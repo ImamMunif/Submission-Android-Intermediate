@@ -47,38 +47,21 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    // !!-------------------- Signup action --------------------!!
     private fun setupAction() {
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
-
-//            viewModel.saveSession(UserModel(email, "sample_token"))
-//            AlertDialog.Builder(this).apply {
-//                setTitle("Yeah!")
-//                setMessage("Anda berhasil login. Sudah tidak sabar untuk belajar ya?")
-//                setPositiveButton("Lanjut") { _, _ ->
-//                    val intent = Intent(context, MainActivity::class.java)
-//                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//                    startActivity(intent)
-//                    finish()
-//                }
-//                create()
-//                show()
-//            }
 
             viewModel.login(email, password).observe(this) { result ->
                 if (result != null) {
                     when (result) {
                         is Result.Loading -> {
                             showLoading(true)
-                            Log.d("Debug: login", "login: logging in...")
                         }
 
                         is Result.Success -> {
                             showLoading(false)
                             val loginResponse = result.data
-                            // refers to LoginResponse object returned from API when it successful
                             showToast(loginResponse.message)
 
                             val userModel = UserModel(
@@ -87,10 +70,6 @@ class LoginActivity : AppCompatActivity() {
                                 isLogin = true
                             )
                             viewModel.saveSession(userModel)
-
-                            Log.d("Debug: login", "login: login success...")
-                            Log.d("Debug: login", "current loginResponse: {$loginResponse}")
-                            Log.d("Debug: login", "current userModel: {$userModel}")
 
                             AlertDialog.Builder(this).apply {
                                 setTitle("Success!")
@@ -110,7 +89,6 @@ class LoginActivity : AppCompatActivity() {
                         is Result.Error -> {
                             showLoading(false)
                             showToast(result.error)
-                            Log.d("Debug: login", "login: login failed...!!")
                         }
                     }
                 }

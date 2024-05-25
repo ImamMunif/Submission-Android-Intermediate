@@ -23,12 +23,10 @@ import retrofit2.HttpException
 import java.io.File
 
 class UserRepository private constructor(
-
     private val apiService: ApiService,
     private val userPreference: UserPreference
 ) {
 
-    // !!-------------------- main logic --------------------!!
     fun getSession(): Flow<UserModel> {
         return userPreference.getSession()
     }
@@ -37,7 +35,6 @@ class UserRepository private constructor(
         userPreference.logout()
     }
 
-    // !!-------------------- login logic --------------------!!
     suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
     }
@@ -60,7 +57,6 @@ class UserRepository private constructor(
         }
     }
 
-    // !!-------------------- signup logic --------------------!!
     fun signup(name: String, email: String, password: String) = liveData {
         emit(Result.Loading)
         try {
@@ -73,39 +69,30 @@ class UserRepository private constructor(
         }
     }
 
-    // !!-------------------- story logic --------------------!!
     fun getStories(token: String): LiveData<Result<List<ListStoryItem>>> =
         liveData(Dispatchers.IO) {
             emit(Result.Loading)
             try {
-                Log.d("log: repository", "getStories: beginning getStories...")
                 val successResponse = apiService.getStories("Bearer $token")
                 val storyList = successResponse.listStory
-                Log.d("log: repository", "getStories:  successResponse: ${successResponse.message}")
                 emit(Result.Success(storyList))
             } catch (e: Exception) {
-                Log.d("log: repository", "getStories: error getStories...!!")
                 emit(Result.Error(e.message.toString()))
             }
         }
 
-    // !!-------------------- story by ID logic --------------------!!
     fun getStoryById(token: String, id: String): LiveData<Result<Story>> =
         liveData(Dispatchers.IO) {
             emit(Result.Loading)
             try {
-                Log.d("log: repository", "getStoryByID: beginning getStoryByID...")
                 val successResponse: StoryDetailResponse =
                     apiService.getStoryById("Bearer $token", id)
-                Log.d("log: repository", "getStoryByID: successResponse: $successResponse")
                 emit(Result.Success(successResponse.story))
             } catch (e: Exception) {
-                Log.d("log: repository", "getStoryByID: error getStoryByID...!!")
                 emit(Result.Error(e.message.toString()))
             }
         }
 
-    // !!-------------------- upload logic --------------------!!
     fun uploadImage(token: String, imageFile: File, description: String) = liveData {
         emit(Result.Loading)
         val requestBody = description.toRequestBody("text/plain".toMediaType())
@@ -116,8 +103,9 @@ class UserRepository private constructor(
             requestImageFile
         )
         try {
-            val successResponse = apiService.uploadImage("Bearer $token", multipartBody, requestBody)
-            emit (Result.Success(successResponse))
+            val successResponse =
+                apiService.uploadImage("Bearer $token", multipartBody, requestBody)
+            emit(Result.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, StoryUploadResponse::class.java)
