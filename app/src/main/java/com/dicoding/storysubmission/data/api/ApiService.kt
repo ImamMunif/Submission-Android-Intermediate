@@ -19,10 +19,10 @@ import retrofit2.http.Path
 interface ApiService {
     @FormUrlEncoded
     @POST("register")
-    suspend fun signup (
+    suspend fun signup(
         @Field("name") name: String,
-        @Field( "email") email: String,
-        @Field( "password") password: String,
+        @Field("email") email: String,
+        @Field("password") password: String,
     ): SignupResponse
 
     @FormUrlEncoded
@@ -38,7 +38,10 @@ interface ApiService {
     ): StoryResponse
 
     @GET("stories/{id}")
-    suspend fun getStoryById(@Path("id") id: String): StoryDetailResponse
+    suspend fun getStoryById(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): StoryDetailResponse
 
     @Multipart
     @POST("stories")

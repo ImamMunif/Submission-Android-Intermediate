@@ -90,12 +90,12 @@ class UserRepository private constructor(
         }
 
     // !!-------------------- story by ID logic --------------------!!
-    fun getStoryById(id: String): LiveData<Result<Story>> =
+    fun getStoryById(token: String, id: String): LiveData<Result<Story>> =
         liveData(Dispatchers.IO) {
             emit(Result.Loading)
             try {
                 Log.d("log: repository", "getStoryByID: beginning getStoryByID...")
-                val successResponse: StoryDetailResponse = apiService.getStoryById(id)
+                val successResponse: StoryDetailResponse = apiService.getStoryById("Bearer $token", id)
                 Log.d("log: repository", "getStoryByID: successResponse: $successResponse")
                 emit(Result.Success(successResponse.story))
             } catch (e: Exception) {

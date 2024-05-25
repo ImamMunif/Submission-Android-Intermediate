@@ -34,16 +34,19 @@ class DetailActivity : AppCompatActivity() {
             intent.getStringExtra("storyId")
         }
 
-        if (storyId != null) {
-            viewModel.getStoryById(storyId).observe(this) {
-                when (it) {
-                    is Result.Loading -> showLoading(true)
-                    is Result.Success -> {
-                        val storyItem = it.data
-                        setDetailData(storyItem)
-                        showLoading(false)
+        viewModel.getSession().observe(this) { user ->
+            val token = user.token
+            if (storyId != null) {
+                viewModel.getStoryById(token, storyId).observe(this) {
+                    when (it) {
+                        is Result.Loading -> showLoading(true)
+                        is Result.Success -> {
+                            val storyItem = it.data
+                            setDetailData(storyItem)
+                            showLoading(false)
+                        }
+                        is Result.Error -> showLoading(false)
                     }
-                    is Result.Error -> showLoading(false)
                 }
             }
         }
@@ -53,6 +56,7 @@ class DetailActivity : AppCompatActivity() {
         onBackPressedDispatcher.onBackPressed()
         return true
     }
+
     private fun setDetailData(storyItem: Story) {
         Log.d("log: DetailActivity", "setDetailData: storyItem: $storyItem")
         Glide
