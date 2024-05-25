@@ -3,7 +3,6 @@ package com.dicoding.storysubmission.view.main
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -20,7 +19,6 @@ import com.dicoding.storysubmission.view.upload.UploadActivity
 
 class MainActivity : AppCompatActivity() {
 
-    // ViewModel dengan menerapkan Android KTX
     private val viewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
     }
@@ -36,11 +34,9 @@ class MainActivity : AppCompatActivity() {
         setupView()
         setMainMenu()
 
-        // List of stores RecyclerView layout manager
         val layoutManager = LinearLayoutManager(this)
         binding.rvStoriesList.layoutManager = layoutManager
 
-        // Conditional if user had session
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
@@ -50,15 +46,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Observe the storyList live data
         viewModel.storyList.observe(this) {
             when (it) {
                 is Result.Loading -> showLoading(true)
                 is Result.Error -> {
                     showLoading(false)
-                    Log.d("log: MainActivity", "observe: failed to retrieve storyList...!!!")
                 }
-
                 is Result.Success -> {
                     showLoading(false)
                     adapter = StoryListAdapter(it.data) { story ->
@@ -68,7 +61,6 @@ class MainActivity : AppCompatActivity() {
                         startActivity(intent)
                     }
                     binding.rvStoriesList.adapter = adapter
-                    Log.d("log: MainActivity", "observe: storyList parsed to the adapter")
                 }
             }
         }
@@ -103,12 +95,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    //    private fun setupAction() {
-    //        binding.logoutButton.setOnClickListener {
-    //            viewModel.logout()
-    //        }
-    //    }
 
     private fun showLoading(isLoading: Boolean) {
         binding.rvStoriesList.visibility = if (isLoading) View.GONE else View.VISIBLE
