@@ -35,4 +35,6 @@
     <string name="success_create_acc">Account created successfully</string>
     <string name="success">Success</string>
     <string name="continue_login">Continue log in</string>
+    <string name="item_banner_thumbnail">Story banner</string>
+    <string name="item_banner_detail">Story banner detail</string>
 </resources>

@@ -58,14 +58,16 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setDetailData(storyItem: Story) {
-        Glide
-            .with(this)
-            .load(storyItem.photoUrl)
-            .fitCenter()
-            .into(binding.imgItemPhotoDetail)
+        binding.apply {
+            Glide
+                .with(this@DetailActivity)
+                .load(storyItem.photoUrl)
+                .fitCenter()
+                .into(imgItemPhotoDetail)
 
-        binding.tvItemNameDetail.text = storyItem.name
-        binding.tvItemDescriptionDetail.text = storyItem.description
+            tvItemNameDetail.text = storyItem.name
+            tvItemDescriptionDetail.text = storyItem.description
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {
