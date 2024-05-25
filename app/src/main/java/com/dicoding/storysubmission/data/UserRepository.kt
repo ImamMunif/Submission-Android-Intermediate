@@ -74,12 +74,12 @@ class UserRepository private constructor(
     }
 
     // !!-------------------- story logic --------------------!!
-    fun getStories(): LiveData<Result<List<ListStoryItem>>> =
+    fun getStories(token: String): LiveData<Result<List<ListStoryItem>>> =
         liveData(Dispatchers.IO) {
             emit(Result.Loading)
             try {
                 Log.d("log: repository", "getStories: beginning getStories...")
-                val successResponse = apiService.getStories()
+                val successResponse = apiService.getStories("Bearer $token")
                 val storyList = successResponse.listStory
                 Log.d("log: repository", "getStories:  successResponse: ${successResponse.message}")
                 emit(Result.Success(storyList))

@@ -26,8 +26,8 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         }
     }
 
-    fun getStories() {
-        val liveData = repository.getStories()
+    fun getStories(token: String) {
+        val liveData = repository.getStories(token)
         _storyList.addSource(liveData) { result ->
             _storyList.value = result
         }

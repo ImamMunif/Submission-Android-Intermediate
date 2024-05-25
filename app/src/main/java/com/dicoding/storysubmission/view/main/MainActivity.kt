@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
             } else {
-                viewModel.getStories()
+                viewModel.getStories(user.token)
             }
         }
 
