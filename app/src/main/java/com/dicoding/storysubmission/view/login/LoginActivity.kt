@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.dicoding.storysubmission.R
 import com.dicoding.storysubmission.databinding.ActivityLoginBinding
 import com.dicoding.storysubmission.view.ViewModelFactory
 import com.dicoding.storysubmission.data.Result
@@ -71,9 +72,9 @@ class LoginActivity : AppCompatActivity() {
                             viewModel.saveSession(userModel)
 
                             AlertDialog.Builder(this).apply {
-                                setTitle("Success!")
-                                setMessage("Login success")
-                                setPositiveButton("Next") { _, _ ->
+                                setTitle(getString(R.string.success))
+                                setMessage(getString(R.string.success_login))
+                                setPositiveButton(getString(R.string.next)) { _, _ ->
                                     val intent = Intent(context, MainActivity::class.java)
                                     intent.flags =
                                         Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK

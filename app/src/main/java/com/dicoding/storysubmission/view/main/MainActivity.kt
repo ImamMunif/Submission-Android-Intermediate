@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storysubmission.R
@@ -84,11 +85,22 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun setMainMenu(){
+    private fun setMainMenu() {
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.action_logout -> {
-                    viewModel.logout()
+                    AlertDialog.Builder(this).apply {
+                        setTitle(getString(R.string.logout))
+                        setMessage(getString(R.string.logout_message))
+                        setPositiveButton(R.string.yes) { _, _ ->
+                            viewModel.logout()
+                        }
+                        setNegativeButton(R.string.no) { _, _ ->
+
+                        }
+                        create()
+                        show()
+                    }
                     true
                 }
                 else -> false

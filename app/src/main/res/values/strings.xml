@@ -37,4 +37,9 @@
     <string name="continue_login">Continue log in</string>
     <string name="item_banner_thumbnail">Story banner</string>
     <string name="item_banner_detail">Story banner detail</string>
+    <string name="success_login">Login success</string>
+    <string name="next">Next</string>
+    <string name="logout_message">"Are you sure you want to leave?"</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
