@@ -10,6 +10,7 @@ import com.dicoding.storysubmission.data.response.ListStoryItem
 import com.dicoding.storysubmission.data.response.LoginResponse
 import com.dicoding.storysubmission.data.response.Story
 import com.dicoding.storysubmission.data.response.StoryDetailResponse
+import com.dicoding.storysubmission.data.response.StoryResponse
 import com.dicoding.storysubmission.data.response.StoryUploadResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -72,7 +73,19 @@ class UserRepository private constructor(
         liveData(Dispatchers.IO) {
             emit(Result.Loading)
             try {
-                val successResponse = apiService.getStories("Bearer $token")
+                val successResponse: StoryResponse = apiService.getStories("Bearer $token")
+                val storyList = successResponse.listStory
+                emit(Result.Success(storyList))
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+
+    fun getStoriesWithLocation(token: String): LiveData<Result<List<ListStoryItem>>> =
+        liveData(Dispatchers.IO) {
+            emit(Result.Loading)
+            try {
+                val successResponse = apiService.getStoriesWithLocation("Bearer $token")
                 val storyList = successResponse.listStory
                 emit(Result.Success(storyList))
             } catch (e: Exception) {
@@ -84,8 +97,7 @@ class UserRepository private constructor(
         liveData(Dispatchers.IO) {
             emit(Result.Loading)
             try {
-                val successResponse: StoryDetailResponse =
-                    apiService.getStoryById("Bearer $token", id)
+                val successResponse: StoryDetailResponse = apiService.getStoryById("Bearer $token", id)
                 emit(Result.Success(successResponse.story))
             } catch (e: Exception) {
                 emit(Result.Error(e.message.toString()))

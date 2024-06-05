@@ -8,6 +8,7 @@ import com.dicoding.storysubmission.di.Injection
 import com.dicoding.storysubmission.view.detail.DetailViewModel
 import com.dicoding.storysubmission.view.login.LoginViewModel
 import com.dicoding.storysubmission.view.main.MainViewModel
+import com.dicoding.storysubmission.view.map.MapsViewModel
 import com.dicoding.storysubmission.view.signup.SignupViewModel
 import com.dicoding.storysubmission.view.upload.UploadViewModel
 
@@ -31,6 +32,9 @@ class ViewModelFactory(private val repository: UserRepository) :
             }
             modelClass.isAssignableFrom(UploadViewModel::class.java) -> {
                 UploadViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
