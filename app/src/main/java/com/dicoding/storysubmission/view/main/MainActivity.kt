@@ -16,6 +16,7 @@ import com.dicoding.storysubmission.view.ViewModelFactory
 import com.dicoding.storysubmission.view.welcome.WelcomeActivity
 import com.dicoding.storysubmission.data.Result
 import com.dicoding.storysubmission.view.detail.DetailActivity
+import com.dicoding.storysubmission.view.map.MapsActivity
 import com.dicoding.storysubmission.view.upload.UploadActivity
 
 class MainActivity : AppCompatActivity() {
@@ -101,6 +102,11 @@ class MainActivity : AppCompatActivity() {
                         create()
                         show()
                     }
+                    true
+                }
+                R.id.menu_maps -> {
+                    val intent = Intent(this, MapsActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false

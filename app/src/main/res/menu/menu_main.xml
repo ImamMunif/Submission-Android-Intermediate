@@ -5,6 +5,12 @@
     tools:ignore="MissingDefaultResource">
 
     <item
+        android:id="@+id/menu_maps"
+        android:title="@string/maps"
+        android:icon="@drawable/ic_baseline_map_24dp"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_logout"
         android:title="@string/logout"
         app:showAsAction="never" />
