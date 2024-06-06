@@ -13,7 +13,7 @@ class UploadViewModel(private val userRepository: UserRepository) : ViewModel() 
         return userRepository.getSession().asLiveData()
     }
 
-    fun uploadImage(token: String, file: File, description: String) =
-        userRepository.uploadImage(token, file, description)
+    fun uploadStory(token: String, file: File, description: String) =
+        userRepository.uploadStory(token, file, description)
 
 }

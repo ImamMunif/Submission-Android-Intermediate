@@ -59,7 +59,7 @@ class UploadActivity : AppCompatActivity() {
 
         binding.layoutButton.galleryButton.setOnClickListener { startGallery() }
         binding.layoutButton.cameraButton.setOnClickListener { startCamera() }
-        binding.uploadButton.setOnClickListener { uploadImage() }
+        binding.uploadButton.setOnClickListener { uploadStory() }
     }
 
     private fun startGallery() {
@@ -94,7 +94,7 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadImage() {
+    private fun uploadStory() {
         val description = binding.descriptionEditText.text.toString().trim()
 
         if (description.isEmpty()) {
@@ -109,7 +109,7 @@ class UploadActivity : AppCompatActivity() {
 
             viewModel.getSession().observe(this) { user ->
                 val token = user.token
-                viewModel.uploadImage(token, imageFile, description).observe(this) { result ->
+                viewModel.uploadStory(token, imageFile, description).observe(this) { result ->
                     if (result != null) {
                         when (result) {
                             is Result.Loading -> {
