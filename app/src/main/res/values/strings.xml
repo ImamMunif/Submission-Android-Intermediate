@@ -44,4 +44,9 @@
     <string name="no">No</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="maps">Map</string>
+    <string name="add_location">Add my location</string>
+    <string name="image_preview">Image preview</string>
+    <string name="error_no_location">Location is not available</string>
+    <string name="gps_dialog_tittle">Device Location is not active</string>
+    <string name="gps_dialog_message">Please turn on your location</string>
 </resources>

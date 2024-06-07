@@ -1,5 +1,6 @@
 package com.dicoding.storysubmission.data
 
+import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.dicoding.storysubmission.data.api.ApiService
@@ -97,32 +98,44 @@ class UserRepository private constructor(
         liveData(Dispatchers.IO) {
             emit(Result.Loading)
             try {
-                val successResponse: StoryDetailResponse = apiService.getStoryById("Bearer $token", id)
+                val successResponse: StoryDetailResponse =
+                    apiService.getStoryById("Bearer $token", id)
                 emit(Result.Success(successResponse.story))
             } catch (e: Exception) {
                 emit(Result.Error(e.message.toString()))
             }
         }
 
-    fun uploadStory(token: String, imageFile: File, description: String) = liveData {
-        emit(Result.Loading)
-        val requestBody = description.toRequestBody("text/plain".toMediaType())
-        val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-        val multipartBody = MultipartBody.Part.createFormData(
-            "photo",
-            imageFile.name,
-            requestImageFile
-        )
-        try {
-            val successResponse =
-                apiService.uploadStory("Bearer $token", multipartBody, requestBody)
-            emit(Result.Success(successResponse))
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, StoryUploadResponse::class.java)
-            emit(Result.Error(errorResponse.message))
+    fun uploadStory(token: String, imageFile: File, description: String, location: Location?) =
+        liveData {
+            emit(Result.Loading)
+            val requestBody = description.toRequestBody("text/plain".toMediaType())
+            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+            val multipartBody = MultipartBody.Part.createFormData(
+                "photo",
+                imageFile.name,
+                requestImageFile
+            )
+            try {
+                val successResponse =
+                    if (location != null) {
+                        apiService.uploadStory(
+                            "Bearer $token",
+                            multipartBody,
+                            requestBody,
+                            location.latitude.toString().toRequestBody("text/plain".toMediaType()),
+                            location.longitude.toString().toRequestBody("text/plain".toMediaType())
+                        )
+                    } else {
+                        apiService.uploadStory("Bearer $token", multipartBody, requestBody)
+                    }
+                emit(Result.Success(successResponse))
+            } catch (e: HttpException) {
+                val errorBody = e.response()?.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, StoryUploadResponse::class.java)
+                emit(Result.Error(errorResponse.message))
+            }
         }
-    }
 
     companion object {
         @Volatile

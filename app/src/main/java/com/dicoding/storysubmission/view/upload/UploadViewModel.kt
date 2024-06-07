@@ -1,5 +1,6 @@
 package com.dicoding.storysubmission.view.upload
 
+import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -13,7 +14,7 @@ class UploadViewModel(private val userRepository: UserRepository) : ViewModel() 
         return userRepository.getSession().asLiveData()
     }
 
-    fun uploadStory(token: String, file: File, description: String) =
-        userRepository.uploadStory(token, file, description)
+    fun uploadStory(token: String, file: File, description: String, location: Location?) =
+        userRepository.uploadStory(token, file, description, location)
 
 }
