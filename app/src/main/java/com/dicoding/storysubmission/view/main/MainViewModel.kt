@@ -32,8 +32,8 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         }
     }
 
-    fun getToken(): String {
-        var token = ""
+    private fun getToken(): String {
+        var token: String
         runBlocking {
             token = repository.getSession().firstOrNull()?.token ?: ""
         }
