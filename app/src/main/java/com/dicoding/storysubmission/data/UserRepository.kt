@@ -1,8 +1,13 @@
 package com.dicoding.storysubmission.data
 
 import android.location.Location
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.dicoding.storysubmission.data.api.ApiService
 import com.dicoding.storysubmission.data.response.SignupResponse
 import com.dicoding.storysubmission.data.pref.UserModel
@@ -11,7 +16,6 @@ import com.dicoding.storysubmission.data.response.ListStoryItem
 import com.dicoding.storysubmission.data.response.LoginResponse
 import com.dicoding.storysubmission.data.response.Story
 import com.dicoding.storysubmission.data.response.StoryDetailResponse
-import com.dicoding.storysubmission.data.response.StoryResponse
 import com.dicoding.storysubmission.data.response.StoryUploadResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -70,17 +74,18 @@ class UserRepository private constructor(
         }
     }
 
-    fun getStories(token: String): LiveData<Result<List<ListStoryItem>>> =
-        liveData(Dispatchers.IO) {
-            emit(Result.Loading)
-            try {
-                val successResponse: StoryResponse = apiService.getStories("Bearer $token")
-                val storyList = successResponse.listStory
-                emit(Result.Success(storyList))
-            } catch (e: Exception) {
-                emit(Result.Error(e.message.toString()))
+    fun getStories(token: String): LiveData<PagingData<ListStoryItem>> {
+        Log.d("Debug", "Repository: getting stories...")
+        Log.d("Debug", "Repository: token: $token")
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                StoryPagingSource("Bearer $token", apiService)
             }
-        }
+        ).liveData
+    }
 
     fun getStoriesWithLocation(token: String): LiveData<Result<List<ListStoryItem>>> =
         liveData(Dispatchers.IO) {

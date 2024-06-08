@@ -9,15 +9,19 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storysubmission.R
+import com.dicoding.storysubmission.data.Result
 import com.dicoding.storysubmission.databinding.ActivityMainBinding
 import com.dicoding.storysubmission.view.ViewModelFactory
+import com.dicoding.storysubmission.view.adapter.LoadingStateAdapter
 import com.dicoding.storysubmission.view.welcome.WelcomeActivity
-import com.dicoding.storysubmission.data.Result
+import com.dicoding.storysubmission.view.adapter.StoryListAdapter
 import com.dicoding.storysubmission.view.detail.DetailActivity
 import com.dicoding.storysubmission.view.map.MapsActivity
 import com.dicoding.storysubmission.view.upload.UploadActivity
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,33 +47,32 @@ class MainActivity : AppCompatActivity() {
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
-            } else {
-                viewModel.getStories(user.token)
-            }
-        }
-
-        viewModel.storyList.observe(this) {
-            when (it) {
-                is Result.Loading -> showLoading(true)
-                is Result.Error -> {
-                    showLoading(false)
-                }
-                is Result.Success -> {
-                    showLoading(false)
-                    adapter = StoryListAdapter(it.data) { story ->
-                        val intent = Intent(this, DetailActivity::class.java).apply {
-                            putExtra("storyId", story.id)
-                        }
-                        startActivity(intent)
-                    }
-                    binding.rvStoriesList.adapter = adapter
-                }
             }
         }
 
         binding.fabUpload.setOnClickListener {
             val intent = Intent(this, UploadActivity::class.java)
             startActivity(intent)
+        }
+
+        getData()
+    }
+
+    private fun getData() {
+        adapter = StoryListAdapter { story ->
+            val intent = Intent(this, DetailActivity::class.java).apply {
+                putExtra("storyId", story.id)
+            }
+            startActivity(intent)
+        }
+
+        binding.rvStoriesList.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+        viewModel.storyList.observe(this) {
+            adapter.submitData(lifecycle, it)
         }
     }
 
@@ -104,11 +107,13 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
+
                 R.id.menu_maps -> {
                     val intent = Intent(this, MapsActivity::class.java)
                     startActivity(intent)
                     true
                 }
+
                 else -> false
             }
         }

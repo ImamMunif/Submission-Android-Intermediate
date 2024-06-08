@@ -49,4 +49,5 @@
     <string name="error_no_location">Location is not available</string>
     <string name="gps_dialog_tittle">Device Location is not active</string>
     <string name="gps_dialog_message">Please turn on your location</string>
+    <string name="retry">Please try again</string>
 </resources>
