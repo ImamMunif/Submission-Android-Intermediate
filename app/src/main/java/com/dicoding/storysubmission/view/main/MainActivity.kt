@@ -9,10 +9,8 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storysubmission.R
-import com.dicoding.storysubmission.data.Result
 import com.dicoding.storysubmission.databinding.ActivityMainBinding
 import com.dicoding.storysubmission.view.ViewModelFactory
 import com.dicoding.storysubmission.view.adapter.LoadingStateAdapter
@@ -21,7 +19,6 @@ import com.dicoding.storysubmission.view.adapter.StoryListAdapter
 import com.dicoding.storysubmission.view.detail.DetailActivity
 import com.dicoding.storysubmission.view.map.MapsActivity
 import com.dicoding.storysubmission.view.upload.UploadActivity
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        showLoading(true)
 
         setupView()
         setMainMenu()
@@ -74,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.storyList.observe(this) {
             adapter.submitData(lifecycle, it)
         }
+        showLoading(false)
     }
 
     private fun setupView() {
