@@ -5,8 +5,6 @@ import com.dicoding.storysubmission.data.api.ApiConfig
 import com.dicoding.storysubmission.data.UserRepository
 import com.dicoding.storysubmission.data.pref.UserPreference
 import com.dicoding.storysubmission.data.pref.dataStore
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 
 object Injection {
     fun provideRepository(context: Context): UserRepository {

@@ -1,7 +1,6 @@
 package com.dicoding.storysubmission.data
 
 import android.location.Location
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.paging.Pager
@@ -75,8 +74,6 @@ class UserRepository private constructor(
     }
 
     fun getStories(token: String): LiveData<PagingData<ListStoryItem>> {
-        Log.d("Debug", "Repository: getting stories...")
-        Log.d("Debug", "Repository: token: $token")
         return Pager(
             config = PagingConfig(
                 pageSize = 5
