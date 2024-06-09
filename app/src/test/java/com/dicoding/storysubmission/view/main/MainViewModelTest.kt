@@ -44,18 +44,19 @@ class MainViewModelTest {
 
     @Before
     fun setUp() {
-        Mockito.`when`(storyRepository.getSession()).thenReturn(flowOf(UserModel("dummy_email@gmail.com", dummyToken, true)))
+        Mockito.lenient().`when`(storyRepository.getSession()).thenReturn(flowOf(UserModel("dummy_email@gmail.com", dummyToken, true)))
     }
 
     @Test
     fun `when Get Story Should Not Null and Return Data`() = runTest {
         val data: PagingData<ListStoryItem> = StoryPagingSource.snapshot(dummyStories)
         val expectedStory = MutableLiveData<PagingData<ListStoryItem>>()
-        expectedStory.value = data
 
+        expectedStory.value = data
         Mockito.`when`(storyRepository.getStories(dummyToken)).thenReturn(expectedStory)
+
         val mainViewModel = MainViewModel(storyRepository)
-        val actualStory: PagingData<ListStoryItem> = mainViewModel.storyList.getOrAwaitValue()
+        val actualStory: PagingData<ListStoryItem> = mainViewModel.getStories(dummyToken).getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryListAdapter.DIFF_CALLBACK,
@@ -73,11 +74,13 @@ class MainViewModelTest {
     fun `when Get Story Empty Should Return No Data`() = runTest {
         val data: PagingData<ListStoryItem> = PagingData.from(emptyList())
         val expectedStory = MutableLiveData<PagingData<ListStoryItem>>()
+
         expectedStory.value = data
         Mockito.`when`(storyRepository.getStories(dummyToken)).thenReturn(expectedStory)
 
         val mainViewModel = MainViewModel(storyRepository)
-        val actualStory: PagingData<ListStoryItem> = mainViewModel.storyList.getOrAwaitValue()
+        val actualStory: PagingData<ListStoryItem> = mainViewModel.getStories(dummyToken).getOrAwaitValue()
+
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryListAdapter.DIFF_CALLBACK,
             updateCallback = noopListUpdateCallback,
