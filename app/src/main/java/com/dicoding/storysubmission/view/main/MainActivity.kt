@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storysubmission.R
 import com.dicoding.storysubmission.databinding.ActivityMainBinding
@@ -48,6 +49,8 @@ class MainActivity : AppCompatActivity() {
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
+            } else {
+                getData(user.token)
             }
         }
 
@@ -55,11 +58,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, UploadActivity::class.java)
             startActivity(intent)
         }
-
-        getData()
     }
 
-    private fun getData() {
+    private fun getData(token: String) {
         adapter = StoryListAdapter { story ->
             val intent = Intent(this, DetailActivity::class.java).apply {
                 putExtra("storyId", story.id)
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                 adapter.retry()
             }
         )
-        viewModel.storyList.observe(this) {
+        viewModel.getStories(token).observe(this) {
             adapter.submitData(lifecycle, it)
         }
         showLoading(false)
@@ -81,7 +82,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupView() {
         WindowInsetsControllerCompat(window, window.decorView).let { controller ->
             controller.hide(WindowInsetsCompat.Type.statusBars())
-            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
         supportActionBar?.hide()
     }

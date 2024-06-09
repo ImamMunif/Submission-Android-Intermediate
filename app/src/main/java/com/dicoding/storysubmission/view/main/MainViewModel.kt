@@ -10,13 +10,12 @@ import com.dicoding.storysubmission.data.UserRepository
 import com.dicoding.storysubmission.data.pref.UserModel
 import com.dicoding.storysubmission.data.response.ListStoryItem
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
 
 class MainViewModel(private val repository: UserRepository) : ViewModel() {
 
-
-    val storyList: LiveData<PagingData<ListStoryItem>> = repository.getStories(getToken()).cachedIn(viewModelScope)
+    fun getStories(token: String): LiveData<PagingData<ListStoryItem>> {
+        return repository.getStories(token).cachedIn(viewModelScope)
+    }
 
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()
@@ -26,14 +25,6 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         viewModelScope.launch {
             repository.logout()
         }
-    }
-
-    private fun getToken(): String {
-        var token: String
-        runBlocking {
-            token = repository.getSession().firstOrNull()?.token ?: ""
-        }
-        return token
     }
 
 }
